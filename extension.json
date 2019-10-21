@@ -1,0 +1,56 @@
+{
+	"name": "BlueSpiceFilterableTables",
+	"version": "3.2.0-alpha",
+	"license-name": "GPL-3.0-only",
+	"url": "https://en.wiki.bluespice.com/wiki/Reference:FilterableTables",
+	"author": "Patric Wirth",
+	"descriptionmsg": "bs-filterabletables-extension-description",
+	"type": "bluespice",
+	"attributes": {
+		"BlueSpiceFoundation": {
+			"Extensions": {
+				"BlueSpiceFilterableTables": {
+					"className": "\\BlueSpice\\FilterableTables\\Extension",
+					"extPath": "/BlueSpiceFilterableTables",
+					"package": "BlueSpice Pro"
+				}
+			}
+		},
+		"BlueSpiceVisualEditorConnector": {
+			"PluginModules": [
+				"ext.bluespice.filterabletables.visualEditorPlugin"
+			]
+		}
+	},
+	"MessagesDirs": {
+		"BlueSpiceFilterableTables": [
+			"i18n"
+		]
+	},
+	"AutoloadNamespaces": {
+		"BlueSpice\\FilterableTables\\": "src/"
+	},
+	"ResourceModules": {
+		"ext.bluespice.filterabletables": {
+			"scripts": [
+				"bluespice.filterabletables.js"
+			]
+		},
+		"ext.bluespice.filterabletables.visualEditorPlugin": {
+			"scripts": [
+				"bs.filtbl/ui/plugin/FilterableOption.js"
+			],
+			"messages": [
+				"bs-filterabletables-ve-filterable-option"
+			]
+		}
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "resources",
+		"remoteExtPath": "BlueSpiceFilterableTables/resources"
+	},
+	"Hooks": {
+		"BeforePageDisplay": "\\BlueSpice\\FilterableTables\\Hook\\BeforePageDisplay\\AddResources::callback"
+	},
+	"manifest_version": 2
+}
