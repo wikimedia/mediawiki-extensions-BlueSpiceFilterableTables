@@ -1,24 +1,26 @@
 {
 	"name": "bluespice/filterabletables",
-	"description": "Provides a filterable content tables",
-	"keywords": [
-		"mediawiki",
-		"wiki"
-	],
-	"license": "GPL-3.0-only",
 	"type": "mediawiki-extension",
-	"homepage": "https://www.bluespice.com",
-	"authors": [
-		{
-			"name": "Hallo Welt! GmbH",
-			"email": "info@hallowelt.com",
-			"homepage": "http://www.hallowelt.com"
-		}
-	],
-	"extra": {
-		"installer-name": "BlueSpiceFilterableTables"
-	},
+	"description": "Provides a filterable content tables",
+	"license": "GPL-3.0-only",
 	"require": {
 		"composer/installers": "~1.0"
+	},
+	"require-dev": {
+		"jakub-onderka/php-parallel-lint": "1.0.0",
+		"jakub-onderka/php-console-highlighter": "0.3.2",
+		"mediawiki/minus-x": "0.3.1"
+	},
+	"scripts": {
+		"test": [
+			"parallel-lint . --exclude vendor --exclude node_modules",
+			"minus-x check ."
+		],
+		"fix": [
+			"minus-x fix ."
+		]
+	},
+	"extra": {
+		"installer-name": "BlueSpiceFilterableTables"
 	}
 }
