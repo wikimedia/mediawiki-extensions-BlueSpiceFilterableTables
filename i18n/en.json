@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Patric Wirth"
+		]
+	},
+	"bs-filterabletables-extension-description": "Provides a filterable content tables",
+	"BlueSpiceFilterableTables": "BlueSpiceFilterableTables",
+	"bs-filterabletables-ve-filterable-option": "Filterable"
+}
