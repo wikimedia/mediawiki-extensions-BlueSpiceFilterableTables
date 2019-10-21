@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"Patric Wirth"
+		]
+	},
+	"bs-filterabletables-extension-description": "{{desc|name=BlueSpiceFilterableTables}}",
+	"bs-filterabletables-ve-filterable-option": "Label for oojs-ui slider for table options in visual editor integration\n{{Identical|Filterable}}"
+}
