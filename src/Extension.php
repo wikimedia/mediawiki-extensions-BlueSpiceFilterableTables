@@ -35,4 +35,5 @@ namespace BlueSpice\FilterableTables;
  * @package BlueSpice_pro
  * @subpackage BlueSpiceFilterableTables
  */
-class Extension extends \BlueSpice\Extension {}
+class Extension extends \BlueSpice\Extension {
+}
