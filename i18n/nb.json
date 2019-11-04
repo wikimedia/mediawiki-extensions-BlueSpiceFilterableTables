@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"Jon Harald Søby"
+		]
+	},
+	"bs-filterabletables-extension-description": "Gir filtrerbar innholdstabell",
+	"bs-filterabletables-ve-filterable-option": "Filtrerbar"
+}
