@@ -30,7 +30,9 @@ bs.filtbl.ui.plugin.FilterableOption.prototype.getValues = function( values ) {
 
 bs.filtbl.ui.plugin.FilterableOption.prototype.getSetupProcess = function( parentProcess, data ) {
 	parentProcess.next( function(){
-		var tableNode = this.component.getFragment().getSelection().getTableNode(),
+		// Save the initial fragment dialog opened with
+		this.fragment = this.component.getFragment();
+		var tableNode = this.fragment.getSelection().getTableNode(),
 			filterable = !!tableNode.getAttribute( 'filterable' );
 
 		this.component.filterableToggle.setValue( filterable );
@@ -46,9 +48,9 @@ bs.filtbl.ui.plugin.FilterableOption.prototype.getActionProcess = function( pare
 	parentProcess.next( function(){
 		var surfaceModel, fragment;
 		if ( action === 'done' ) {
-			surfaceModel = this.component.getFragment().getSurface();
+			surfaceModel = this.fragment.getSurface();
 			fragment = surfaceModel.getLinearFragment(
-				this.component.getFragment().getSelection().tableRange, true
+				this.fragment.getSelection().tableRange, true
 			);
 			fragment.changeAttributes( {
 				filterable: this.component.filterableToggle.getValue()
