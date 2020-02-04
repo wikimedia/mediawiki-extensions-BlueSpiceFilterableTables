@@ -1,8 +1,10 @@
 {
 	"@metadata": {
 		"authors": [
-			"Mansil alfalb"
+			"Mansil alfalb",
+			"Hamilton Abreu"
 		]
 	},
-	"bs-filterabletables-ve-filterable-option": "Filtrável"
+	"bs-filterabletables-ve-filterable-option": "Filtrável",
+	"bs-filterabletables-extension-description": "Fornece tabelas de conteúdo filtráveis"
 }
