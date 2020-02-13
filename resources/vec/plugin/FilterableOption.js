@@ -1,15 +1,15 @@
-bs.util.registerNamespace( 'bs.filtbl.ui.plugin' );
+bs.util.registerNamespace( 'bs.filterableTables.ui.plugin' );
 
 // extend document model
 ve.dm.MWTableNode.static.classAttributes['filterable'] = { filterable: true };
 
-bs.filtbl.ui.plugin.FilterableOption = function BsFiltblUiFilterableOption( config ) {
-	bs.filtbl.ui.plugin.FilterableOption.super.call( this, config );
+bs.filterableTables.ui.plugin.FilterableOption = function BsFiltblUiFilterableOption( config ) {
+	bs.filterableTables.ui.plugin.FilterableOption.super.call( this, config );
 };
 
-OO.inheritClass( bs.filtbl.ui.plugin.FilterableOption, bs.vec.ui.plugin.MWTableDialog );
+OO.inheritClass( bs.filterableTables.ui.plugin.FilterableOption, bs.vec.ui.plugin.MWTableDialog );
 
-bs.filtbl.ui.plugin.FilterableOption.prototype.initialize = function() {
+bs.filterableTables.ui.plugin.FilterableOption.prototype.initialize = function() {
 	var filterableField;
 
 	this.component.filterableToggle = new OO.ui.ToggleSwitchWidget();
@@ -22,13 +22,13 @@ bs.filtbl.ui.plugin.FilterableOption.prototype.initialize = function() {
 	this.component.panel.$element.append( filterableField.$element );
 };
 
-bs.filtbl.ui.plugin.FilterableOption.prototype.getValues = function( values ) {
+bs.filterableTables.ui.plugin.FilterableOption.prototype.getValues = function( values ) {
 	return ve.extendObject( values, {
 		filterable: this.component.filterableToggle.getValue()
 	} );
 };
 
-bs.filtbl.ui.plugin.FilterableOption.prototype.getSetupProcess = function( parentProcess, data ) {
+bs.filterableTables.ui.plugin.FilterableOption.prototype.getSetupProcess = function( parentProcess, data ) {
 	parentProcess.next( function(){
 		// Save the initial fragment dialog opened with
 		this.fragment = this.component.getFragment();
@@ -44,7 +44,7 @@ bs.filtbl.ui.plugin.FilterableOption.prototype.getSetupProcess = function( paren
 	return parentProcess;
 };
 
-bs.filtbl.ui.plugin.FilterableOption.prototype.getActionProcess = function( parentProcess, action ) {
+bs.filterableTables.ui.plugin.FilterableOption.prototype.getActionProcess = function( parentProcess, action ) {
 	parentProcess.next( function(){
 		var surfaceModel, fragment;
 		if ( action === 'done' ) {
@@ -63,6 +63,6 @@ bs.filtbl.ui.plugin.FilterableOption.prototype.getActionProcess = function( pare
 bs.vec.registerComponentPlugin(
 	bs.vec.components.TABLE_DIALOG,
 	function( component ) {
-		return new bs.filtbl.ui.plugin.FilterableOption( component );
+		return new bs.filterableTables.ui.plugin.FilterableOption( component );
 	}
 );
