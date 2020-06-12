@@ -32,7 +32,7 @@ bs.filterableTables.ui.plugin.FilterableOption.prototype.getSetupProcess = funct
 	parentProcess.next( function(){
 		// Save the initial fragment dialog opened with
 		this.fragment = this.component.getFragment();
-		var tableNode = this.fragment.getSelection().getTableNode(),
+		var tableNode = this.fragment.getSelection().getTableNode( this.fragment.document ),
 			filterable = !!tableNode.getAttribute( 'filterable' );
 
 		this.component.filterableToggle.setValue( filterable );
