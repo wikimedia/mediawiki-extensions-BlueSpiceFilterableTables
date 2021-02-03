@@ -1,5 +1,7 @@
 {
-	"@metadata": [],
+	"@metadata": {
+		"authors": []
+	},
 	"bs-filterabletables-extension-description": "Pruža tabele sa sadržajima koji se mogu filtrirati",
 	"bs-filterabletables-ve-filterable-option": "Filtrirajuće"
 }
