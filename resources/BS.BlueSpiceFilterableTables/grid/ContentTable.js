@@ -35,6 +35,12 @@ Ext.define( 'BS.BlueSpiceFilterableTables.grid.ContentTable', {
 		me.filters = [];
 
 		if( me.title === '' && me.$el.find( 'caption' ).length > 0 ) {
+			// If table is collapsible and there is "Collapse" span generated - remove it from caption
+			if( me.$el.hasClass('mw-collapsible') ) {
+				me.collapsible = true;
+				me.$el.find('caption > span.mw-collapsible-toggle').remove();
+			}
+
 			me.title = me.$el.find( 'caption' ).first().text();
 		}
 
