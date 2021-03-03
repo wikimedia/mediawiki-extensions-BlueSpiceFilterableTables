@@ -34,13 +34,14 @@ Ext.define( 'BS.BlueSpiceFilterableTables.grid.ContentTable', {
 		me.headerColspans = [];
 		me.filters = [];
 
-		if( me.title === '' && me.$el.find( 'caption' ).length > 0 ) {
-			// If table is collapsible and there is "Collapse" span generated - remove it from caption
-			if( me.$el.hasClass('mw-collapsible') ) {
-				me.collapsible = true;
-				me.$el.find('caption > span.mw-collapsible-toggle').remove();
-			}
+		if( me.$el.hasClass('mw-collapsible') ) {
+			me.collapsible = true;
 
+			// If table is collapsible and there is "Collapse" span generated - remove it
+			me.$el.find('span.mw-collapsible-toggle').remove();
+		}
+
+		if( me.title === '' && me.$el.find( 'caption' ).length > 0 ) {
 			me.title = me.$el.find( 'caption' ).first().text();
 		}
 
