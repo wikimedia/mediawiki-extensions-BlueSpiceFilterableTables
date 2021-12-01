@@ -1,5 +1,5 @@
 (function( mw, $, d, undefined ){
-	$( '#bodyContent' ).find('table.filterable').each( function() {
+	$( '#bodyContent, article#content' ).find( 'table.filterable' ).each( function() {
 		var $el = $(this);
 		mw.loader.using( 'ext.bluespice.extjs' ).done( function() {
 			Ext.onReady( function(){
