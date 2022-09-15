@@ -159,7 +159,7 @@ Ext.define( 'BS.BlueSpiceFilterableTables.grid.ContentTable', {
 
 		this.fieldmap.push( fieldname );
 
-		this.columns.push( {
+		columnConfig = {
 			flex: 1,
 			dataIndex: fieldname,
 			text: this.getElHeaderText( $th ),
@@ -171,7 +171,13 @@ Ext.define( 'BS.BlueSpiceFilterableTables.grid.ContentTable', {
 				meta.style = attributes.style;
 				return record.get( meta.column.dataIndex + '-render' );
 			}
-		});
+		}
+		width = this.parseColumnWidthFromAttribute( attributes.style );
+		if ( width !== null ) {
+			columnConfig['flex'] = 0;
+			columnConfig['width'] = width;
+ 		}
+		this.columns.push( columnConfig );
 
 		this.filters.push( {
 			type: attributes.type,
@@ -184,6 +190,14 @@ Ext.define( 'BS.BlueSpiceFilterableTables.grid.ContentTable', {
 		text = text.replace( /(<([^>]+)>)/ig, '' );
 		text = $.trim( text );
 		return text;
+	},
+
+	parseColumnWidthFromAttribute: function( style ) {
+		if ( !style || !style.includes('width') || style.includes( 'width:px' ) ) {
+			return null;
+		}
+		result = style.match( 'width:(\D?)([0-9]*?)px' );
+		return parseInt( result[2] );
 	},
 
 	getElHeaderText: function( $el ) {
