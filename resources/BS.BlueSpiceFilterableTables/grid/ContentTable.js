@@ -173,7 +173,7 @@ Ext.define( 'BS.BlueSpiceFilterableTables.grid.ContentTable', {
 			}
 		}
 		width = this.parseColumnWidthFromAttribute( attributes.style );
-		if ( width !== null ) {
+		if ( width ) {
 			columnConfig['flex'] = 0;
 			columnConfig['width'] = width;
  		}
@@ -193,11 +193,21 @@ Ext.define( 'BS.BlueSpiceFilterableTables.grid.ContentTable', {
 	},
 
 	parseColumnWidthFromAttribute: function( style ) {
-		if ( !style || !style.includes('width') || style.includes( 'width:px' ) ) {
-			return null;
+		if ( style || style.includes('width') ) {
+			result = style.replace(" ", "").match( 'width:([0-9]*)(\%|px|em)' );
+			if ( result !== null )  {
+				if ( result[2] === "px" ) {
+					return parseInt( result[1] );
+				}
+				if ( result[2] === "em" ) {
+					return parseInt( result[1] ) * 12.8;
+				}
+				if ( result[2] === "%" ) {
+					return result[1] + result[2];
+				}
+			}
 		}
-		result = style.match( 'width:(\D?)([0-9]*?)px' );
-		return parseInt( result[2] );
+		return null;
 	},
 
 	getElHeaderText: function( $el ) {
