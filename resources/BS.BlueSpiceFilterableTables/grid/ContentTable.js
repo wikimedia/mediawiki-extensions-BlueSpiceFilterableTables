@@ -168,7 +168,6 @@ Ext.define( 'BS.BlueSpiceFilterableTables.grid.ContentTable', {
 				type: attributes.type
 			},
 			renderer: function( value, meta, record ) {
-				meta.style = attributes.style;
 				return record.get( meta.column.dataIndex + '-render' );
 			}
 		}
