@@ -4,6 +4,7 @@ Ext.define( 'BS.BlueSpiceFilterableTables.grid.ContentTable', {
 	hideHeaders: false,
 	stripeRows: false,
 	border: true,
+	width: 0,
 	title: '',
 	tools : [],
 
@@ -33,6 +34,7 @@ Ext.define( 'BS.BlueSpiceFilterableTables.grid.ContentTable', {
 		me.currentData = [];
 		me.headerColspans = [];
 		me.filters = [];
+		me.width = this.parseColumnWidthFromAttribute(this.getElAttributes( me.$el ).style);
 
 		if( me.$el.hasClass('mw-collapsible') ) {
 			me.collapsible = true;
