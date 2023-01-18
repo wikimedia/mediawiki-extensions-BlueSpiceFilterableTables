@@ -72,6 +72,7 @@ Ext.define( 'BS.BlueSpiceFilterableTables.grid.ContentTable', {
 			var y = 0;
 			$(this).find( 'th, td' ).each( function( index, value ) {
 				var attributes = me.getElAttributes( $(value) );
+				me.formatDate( $(value) );
 				if( me.headerColspan[me.fieldmap[i]] && me.headerColspan[me.fieldmap[i]] > y ) {
 					if( !row[me.fieldmap[i]] ) {
 						row[me.fieldmap[i]] = me.getElText( $(value) );
@@ -244,5 +245,14 @@ Ext.define( 'BS.BlueSpiceFilterableTables.grid.ContentTable', {
 			}
 		}
 		return attr;
+	},
+
+	formatDate: function( $el ) {
+		// small HACK to make date in format dd.mm.yyyy|dd-mm-yyyy sortable
+		if (date = $el[0].textContent.trim()
+			.match(/^([0-9]{2})(.|-)([0-9]{2})(.|-)([0-9]{4})$/)
+		) {
+			$el[0].textContent = `${date[5]}.${date[3]}.${date[1]}`;
+		}
 	}
 });
