@@ -252,7 +252,17 @@ Ext.define( 'BS.BlueSpiceFilterableTables.grid.ContentTable', {
 		if (date = $el[0].textContent.trim()
 			.match(/^([0-9]{2})(.|-)([0-9]{2})(.|-)([0-9]{4})$/)
 		) {
-			$el[0].textContent = `${date[5]}.${date[3]}.${date[1]}`;
+			$el[0].textContent = ``;
+
+			var invisibleDate = document.createElement('p');
+			invisibleDate.textContent = `${date[5]}.${date[3]}.${date[1]}`;
+			invisibleDate.style.display='none';
+
+			var visibleDate = document.createElement('div');
+			visibleDate.textContent = `${date[1]}.${date[3]}.${date[5]}`;
+
+			$el[0].appendChild( invisibleDate );
+			$el[0].appendChild( visibleDate );
 		}
 	}
 });
