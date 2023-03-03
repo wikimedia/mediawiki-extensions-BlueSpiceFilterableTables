@@ -2,7 +2,7 @@
 	"name": "BlueSpiceFilterableTables",
 	"version": "4.3.0-alpha",
 	"license-name": "GPL-3.0-only",
-	"url": "https://en.wiki.bluespice.com/wiki/Reference:FilterableTables",
+	"url": "https://en.wiki.bluespice.com/wiki/Reference:BlueSpiceFilterableTables",
 	"author": "Patric Wirth",
 	"descriptionmsg": "bs-filterabletables-extension-description",
 	"requires": {
