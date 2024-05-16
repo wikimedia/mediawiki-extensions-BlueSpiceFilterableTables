@@ -1,8 +1,10 @@
 {
 	"@metadata": {
 		"authors": [
+			"Suleiman the Magnificent Television",
 			"Ykhwong"
 		]
 	},
+	"bs-filterabletables-extension-description": "필터링 가능한 내용 테이블을 제공합니다",
 	"bs-filterabletables-ve-filterable-option": "필터링 가능"
 }
