@@ -55,8 +55,15 @@
 		"localBasePath": "resources",
 		"remoteExtPath": "BlueSpiceFilterableTables/resources"
 	},
+	"HookHandlers": {
+		"addPageProperty": {
+			"class": "BlueSpice\\FilterableTables\\HookHandler\\AddPageProperty"
+		}
+	},
 	"Hooks": {
-		"BeforePageDisplay": "\\BlueSpice\\FilterableTables\\Hook\\BeforePageDisplay\\AddResources::callback"
+		"BeforePageDisplay": "\\BlueSpice\\FilterableTables\\Hook\\BeforePageDisplay\\AddResources::callback",
+		"BSUsageTrackerRegisterCollectors": "BlueSpice\\FilterableTables\\Hook\\BSUsageTrackerRegisterCollectors\\NoOfFilterableTables::callback",
+		"ContentAlterParserOutput": "addPageProperty"
 	},
 	"manifest_version": 2
 }
