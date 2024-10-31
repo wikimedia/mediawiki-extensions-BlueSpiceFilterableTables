@@ -47,11 +47,21 @@ Ext.define( 'BS.BlueSpiceFilterableTables.grid.ContentTable', {
 			me.title = me.$el.find( 'caption' ).first().text();
 		}
 
+
+
 		if( me.$el.find('thead tr').first().length < 1 ) {
-			me.$el.find('tbody tr').first().find('th').each( function( index, value ){
-				me.extractMappings( $(value) );
-			});
-			me.skiprows ++;
+			if ( me.$el.find('tbody tr').first().find('th').length > 0 ) {
+				me.$el.find('tbody tr').first().find('th').each( function( index, value ){
+					me.extractMappings( $(value) );
+				} );
+				me.skiprows++;
+			} else {
+				// No header
+				me.$el.find('tbody tr').first().find('td').each( function( index, value ){
+					me.extractMappings( $(value), index );
+				});
+			}
+
 		} else {
 			me.$el.find('thead tr').first().find('th').each( function( index, value ){
 				me.extractMappings( $(value) );
@@ -142,7 +152,8 @@ Ext.define( 'BS.BlueSpiceFilterableTables.grid.ContentTable', {
 		me.callParent( arguments );
 	},
 
-	extractMappings: function( $th ) {
+	extractMappings: function( $th, counter ) {
+		counter = counter || 0;
 		var fieldname = Ext.id();
 		var attributes = this.getElAttributes( $th );
 
@@ -165,7 +176,7 @@ Ext.define( 'BS.BlueSpiceFilterableTables.grid.ContentTable', {
 		columnConfig = {
 			flex: 1,
 			dataIndex: fieldname,
-			text: this.getElHeaderText( $th ),
+			text: this.getElHeaderText( $th, counter + 1 ),
 			sortable: true,
 			filter: {
 				type: attributes.type
@@ -212,8 +223,12 @@ Ext.define( 'BS.BlueSpiceFilterableTables.grid.ContentTable', {
 		return null;
 	},
 
-	getElHeaderText: function( $el ) {
-		return this.getElText( $el ).replace( /\n/g, '' );
+	getElHeaderText: function( $el, counter ) {
+		// If its th
+		if( $el.is('th') ) {
+			return this.getElText( $el ).replace( /\n/g, '' );
+		}
+		return counter || '-';
 	},
 
 	getElAttributes: function( $el ) {
