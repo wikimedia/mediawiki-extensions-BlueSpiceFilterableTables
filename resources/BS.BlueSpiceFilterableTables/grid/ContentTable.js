@@ -38,6 +38,9 @@ Ext.define( 'BS.BlueSpiceFilterableTables.grid.ContentTable', {
 
 		if( me.$el.hasClass('mw-collapsible') ) {
 			me.collapsible = true;
+			if( me.$el.hasClass('mw-collapsed') ) {
+				me.collapsed = true;
+			}
 
 			// If table is collapsible and there is "Collapse" span generated - remove it
 			me.$el.find('span.mw-collapsible-toggle').remove();
