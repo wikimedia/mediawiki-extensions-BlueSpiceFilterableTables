@@ -8,7 +8,8 @@
 	"requires": {
 		"MediaWiki": ">= 1.39.0",
 		"extensions": {
-			"BlueSpiceFoundation": ">= 4.3"
+			"BlueSpiceFoundation": ">= 4.3",
+			"OOJSPlus": ">= 2.0.0"
 		}
 	},
 	"type": "bluespice",
@@ -40,6 +41,14 @@
 		"ext.bluespice.filterabletables": {
 			"scripts": [
 				"bluespice.filterabletables.js"
+			]
+		},
+		"ext.bluespice.filterabletables.grid": {
+			"scripts": [
+				"ui/grid/FilterableTable.js"
+			],
+			"dependencies": [
+				"ext.oOJSPlus.data"
 			]
 		},
 		"ext.bluespice.filterabletables.visualEditorPlugin": {
