@@ -2,10 +2,24 @@ bs.util.registerNamespace( 'bs.filterableTables.ui.grid' );
 
 bs.filterableTables.ui.grid.FilterableTable = function ( cfg ) {
 	this.skipRows = 0;
+
+	this.skipTableClasses = [
+		'mw-collapsible',
+		'sortable',
+		'mw-collapsed',
+		'mw-sticky-header',
+		'jquery-tablesorter',
+		'mw-made-collapsible',
+		'bs-exportable'
+	];
+
 	cfg = this.makeGridCfg( cfg );
 	cfg.classes = [ 'bs-filtertable' ];
 
 	bs.filterableTables.ui.grid.FilterableTable.super.call( this, cfg );
+
+	let classes = this.getTableClassNames( cfg.$table );
+	this.$table.addClass( classes.join( ' ' ) );
 };
 
 OO.inheritClass( bs.filterableTables.ui.grid.FilterableTable, OOJSPlus.ui.data.GridWidget );
@@ -13,7 +27,15 @@ OO.inheritClass( bs.filterableTables.ui.grid.FilterableTable, OOJSPlus.ui.data.G
 bs.filterableTables.ui.grid.FilterableTable.prototype.makeGridCfg = function ( cfg ) {
 	let $table = cfg.$table || '';
 	if ( $table.find( 'caption' ).length > 0 ) {
-		cfg.caption = cfg.$table.find( 'caption' ).first().text();
+		let captionNodes =  cfg.$table.find( 'caption' )[0].childNodes;
+		var caption = '';
+		for ( var i in captionNodes ) {
+			if ( captionNodes[ i ].nodeType != Node.TEXT_NODE ) {
+				continue;
+			}
+			caption = captionNodes[ i ];
+		}
+		cfg.caption = caption;
 	}
 	this.columnsHelper = {};
 	let columnCounter = 0;
@@ -33,7 +55,7 @@ bs.filterableTables.ui.grid.FilterableTable.prototype.makeGridCfg = function ( c
 	cfg.columns = this.columnsHelper;
 	cfg.data = this.getData( $table );
 	cfg.pageSize = 999;
-	if ( $table.hasClass( 'mw-collapsible') ) {
+	if ( $table.hasClass( 'mw-collapsible' ) ) {
 		cfg.collapsible = true;
 		if( cfg.$table.hasClass( 'mw-collapsed' ) ) {
 			cfg.collapsed = true;
@@ -46,6 +68,20 @@ bs.filterableTables.ui.grid.FilterableTable.prototype.makeGridCfg = function ( c
 
 	return cfg;
 };
+
+bs.filterableTables.ui.grid.FilterableTable.prototype.getTableClassNames = function ( $table ) {
+	let tableClasses = $( $table )[0].className.split( ' ' );
+
+	let classes = [];
+	for( let i in tableClasses ) {
+		let tableClass = tableClasses[i];
+		if ( this.skipTableClasses.includes( tableClass ) ) {
+			continue;
+		}
+		classes.push( tableClass );
+	}
+	return classes;
+}
 
 bs.filterableTables.ui.grid.FilterableTable.prototype.getData = function ( $table ) {
 	var me = this;
@@ -113,7 +149,8 @@ bs.filterableTables.ui.grid.FilterableTable.prototype.extractMappings = function
 		type: attributes.type,
 		filter: {
 			type: attributes.type
-		}
+		},
+		autoClosePopup: true
 	}
 	width = this.parseColumnWidthFromAttribute( attributes.style );
 	if ( width ) {
