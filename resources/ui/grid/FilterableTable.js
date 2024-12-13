@@ -27,7 +27,7 @@ OO.inheritClass( bs.filterableTables.ui.grid.FilterableTable, OOJSPlus.ui.data.G
 bs.filterableTables.ui.grid.FilterableTable.prototype.makeGridCfg = function ( cfg ) {
 	let $table = cfg.$table || '';
 	if ( $table.find( 'caption' ).length > 0 ) {
-		let captionNodes =  cfg.$table.find( 'caption' )[0].childNodes;
+		let captionNodes = cfg.$table.find( 'caption' )[0].childNodes;
 		var caption = '';
 		for ( var i in captionNodes ) {
 			if ( captionNodes[ i ].nodeType != Node.TEXT_NODE ) {
@@ -209,8 +209,17 @@ bs.filterableTables.ui.grid.FilterableTable.prototype.parseColumnWidthFromAttrib
 };
 
 bs.filterableTables.ui.grid.FilterableTable.prototype.getElHeaderText = function( $el, counter ) {
-	if( $el.is('th') ) {
-		return this.getElText( $el ).replace( /\n/g, '' );
+	if ( $el.is('th') ) {
+		if ( $( $el ).children().length === 0 ) {
+			return this.getElText( $el ).replace( /\n/g, '' );
+		}
+		let headerNodes = $( $el ).contents();
+		for ( var i = 0; i < headerNodes.length; i++ ) {
+			if ( headerNodes[ i ].nodeType === Node.ELEMENT_NODE && headerNodes[ i ].tagName === 'BUTTON' ) {
+				continue;
+			}
+			return this.getElText( $( headerNodes[ i ] ) ).replace( /\n/g, '' );
+		}
 	}
 	return counter || '-';
 };
