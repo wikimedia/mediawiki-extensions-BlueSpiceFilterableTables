@@ -3,7 +3,7 @@
 namespace BlueSpice\FilterableTables\HookHandler;
 
 use MediaWiki\Content\Hook\ContentAlterParserOutputHook;
-use WikitextContent;
+use MediaWiki\Content\WikitextContent;
 
 class AddPageProperty implements ContentAlterParserOutputHook {
 
