@@ -37,6 +37,9 @@
 	"AutoloadNamespaces": {
 		"BlueSpice\\FilterableTables\\": "src/"
 	},
+	"TestAutoloadNamespaces": {
+		"BlueSpice\\FilterableTables\\Tests\\": "tests/phpunit/"
+	},
 	"ResourceModules": {
 		"ext.bluespice.filterabletables": {
 			"scripts": [
