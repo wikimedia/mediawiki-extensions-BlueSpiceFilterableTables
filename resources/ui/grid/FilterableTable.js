@@ -150,7 +150,13 @@ bs.filterableTables.ui.grid.FilterableTable.prototype.extractMappings = function
 		filter: {
 			type: attributes.type
 		},
-		autoClosePopup: true
+		autoClosePopup: true,
+		valueParser: ( value ) => {
+			if ( value.startsWith( '<a' ) ) {
+				return new OO.ui.HtmlSnippet( value );
+			}
+			return value;
+		}
 	};
 	const width = this.parseColumnWidthFromAttribute( attributes.style );
 	if ( width ) {
@@ -225,6 +231,11 @@ bs.filterableTables.ui.grid.FilterableTable.prototype.getElHeaderText = function
 };
 
 bs.filterableTables.ui.grid.FilterableTable.prototype.getElText = function ( $el ) {
+	const anchor = $el.find( 'a' ).get( 0 );
+	if ( anchor ) {
+		return anchor.outerHTML;
+	}
+
 	let text = $el.text();
 	text = text.replace( /(<([^>]+)>)/ig, '' );
 	text = $.trim( text ); // eslint-disable-line no-jquery/no-trim
