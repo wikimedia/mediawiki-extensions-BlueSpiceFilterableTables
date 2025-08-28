@@ -231,6 +231,11 @@ bs.filterableTables.ui.grid.FilterableTable.prototype.getElHeaderText = function
 };
 
 bs.filterableTables.ui.grid.FilterableTable.prototype.getElText = function ( $el ) {
+	const sortVal = $el.attr( 'data-sort-value' );
+	if ( sortVal ) {
+		return sortVal;
+	}
+
 	const anchor = $el.find( 'a' ).get( 0 );
 	if ( anchor ) {
 		return anchor.outerHTML;
@@ -243,20 +248,15 @@ bs.filterableTables.ui.grid.FilterableTable.prototype.getElText = function ( $el
 };
 
 bs.filterableTables.ui.grid.FilterableTable.prototype.formatDate = function ( $el ) {
-	// small HACK to make date in format dd.mm.yyyy|dd-mm-yyyy sortable
+	// Format cell date for display (dd.mm.yyyy) and ISO sort (yyyy-mm-dd)
 	const date = $el[ 0 ].textContent.trim()
 		.match( /^([0-9]{2})([.-])([0-9]{2})\2([0-9]{4})$/ );
+
 	if ( date ) {
-		$el[ 0 ].textContent = '';
+		const sortVal = `${ date[ 4 ] }-${ date[ 3 ] }-${ date[ 1 ] }`;
+		const displayVal = `${ date[ 1 ] }.${ date[ 3 ] }.${ date[ 4 ] }`;
 
-		const invisibleDate = document.createElement( 'p' );
-		invisibleDate.textContent = `${ date[ 5 ] }.${ date[ 3 ] }.${ date[ 1 ] }`;
-		invisibleDate.style.display = 'none';
-
-		const visibleDate = document.createElement( 'div' );
-		visibleDate.textContent = `${ date[ 1 ] }.${ date[ 3 ] }.${ date[ 5 ] }`;
-
-		$el[ 0 ].appendChild( invisibleDate );
-		$el[ 0 ].appendChild( visibleDate );
+		$el[ 0 ].textContent = displayVal;
+		$el.attr( 'data-sort-value', sortVal );
 	}
 };
