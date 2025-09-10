@@ -152,6 +152,11 @@ bs.filterableTables.ui.grid.FilterableTable.prototype.extractMappings = function
 		},
 		autoClosePopup: true,
 		valueParser: ( value ) => {
+			// If the value has a sort/display divider, return the display part for rendering
+			if ( value.includes( '|SORT_DISPLAY_DIVIDER|' ) ) {
+				const [ sort, display ] = value.split( '|SORT_DISPLAY_DIVIDER|', 2 ); // eslint-disable-line no-unused-vars
+				return display || value;
+			}
 			if ( value.startsWith( '<a' ) ) {
 				return new OO.ui.HtmlSnippet( value );
 			}
@@ -231,11 +236,7 @@ bs.filterableTables.ui.grid.FilterableTable.prototype.getElHeaderText = function
 };
 
 bs.filterableTables.ui.grid.FilterableTable.prototype.getElText = function ( $el ) {
-	const sortVal = $el.attr( 'data-sort-value' );
-	if ( sortVal ) {
-		return sortVal;
-	}
-
+	// Preserve links
 	const anchor = $el.find( 'a' ).get( 0 );
 	if ( anchor ) {
 		return anchor.outerHTML;
@@ -244,19 +245,34 @@ bs.filterableTables.ui.grid.FilterableTable.prototype.getElText = function ( $el
 	let text = $el.text();
 	text = text.replace( /(<([^>]+)>)/ig, '' );
 	text = $.trim( text ); // eslint-disable-line no-jquery/no-trim
+
 	return text;
 };
 
+/**
+ * Format date cells for sorting
+ *
+ * Prefixes the sortable ISO value to the display value, separated by a divider.
+ * This allows sorting with only string manipulation. The valueParser later
+ * splits this string to render the original display value while preserving
+ * correct sort order.
+ *
+ * @param {jQuery} $el
+ * @return {void}
+ */
 bs.filterableTables.ui.grid.FilterableTable.prototype.formatDate = function ( $el ) {
-	// Format cell date for display (dd.mm.yyyy) and ISO sort (yyyy-mm-dd)
-	const date = $el[ 0 ].textContent.trim()
-		.match( /^([0-9]{2})([.-])([0-9]{2})\2([0-9]{4})$/ );
-
-	if ( date ) {
-		const sortVal = `${ date[ 4 ] }-${ date[ 3 ] }-${ date[ 1 ] }`;
-		const displayVal = `${ date[ 1 ] }.${ date[ 3 ] }.${ date[ 4 ] }`;
-
-		$el[ 0 ].textContent = displayVal;
-		$el.attr( 'data-sort-value', sortVal );
+	// Convert dd.mm.yyyy to ISO (yyyy-mm-dd) for sorting
+	const displayVal = $el.text().trim();
+	const dateMatch = displayVal.match( /^([0-9]{2})([.-])([0-9]{2})\2([0-9]{4})$/ );
+	if ( !dateMatch ) {
+		return;
 	}
+
+	const day = dateMatch[ 1 ];
+	const month = dateMatch[ 3 ];
+	const year = dateMatch[ 4 ];
+	const sortVal = `${ year }-${ month }-${ day }`;
+
+	// Store both sort and display value
+	$el.text( `${ sortVal }|SORT_DISPLAY_DIVIDER|${ displayVal }` );
 };
