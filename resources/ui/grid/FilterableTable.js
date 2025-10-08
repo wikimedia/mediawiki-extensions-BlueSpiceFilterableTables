@@ -220,18 +220,33 @@ bs.filterableTables.ui.grid.FilterableTable.prototype.parseColumnWidthFromAttrib
 };
 
 bs.filterableTables.ui.grid.FilterableTable.prototype.getElHeaderText = function ( $el, counter ) {
-	if ( $el.is( 'th' ) ) {
-		if ( $( $el ).children().length === 0 ) {
-			return this.getElText( $el ).replace( /\n/g, '' );
-		}
-		const headerNodes = $( $el ).contents(); // eslint-disable-line no-jquery/variable-pattern
-		for ( let i = 0; i < headerNodes.length; i++ ) {
-			if ( headerNodes[ i ].nodeType === Node.ELEMENT_NODE && headerNodes[ i ].tagName === 'BUTTON' ) {
-				continue;
-			}
-			return this.getElText( $( headerNodes[ i ] ) ).replace( /\n/g, '' );
-		}
+	if ( !$el.is( 'th' ) ) {
+		return counter || '-';
 	}
+
+	// Plain header
+	if ( $el.children().length === 0 ) {
+		return this.getElText( $el ).replace( /\n/g, '' );
+	}
+
+	// SMW link header - extract text
+	const anchor = $el.find( 'a' ).first(); // eslint-disable-line no-jquery/variable-pattern
+	if ( anchor.length ) {
+		return anchor.text().trim().replace( /\n/g, '' );
+	}
+
+	// Other elements - skip buttons
+	const headerNodes = $( $el ).contents(); // eslint-disable-line no-jquery/variable-pattern
+	for ( let i = 0; i < headerNodes.length; i++ ) {
+		if (
+			headerNodes[ i ].nodeType === Node.ELEMENT_NODE &&
+			headerNodes[ i ].tagName === 'BUTTON'
+		) {
+			continue;
+		}
+		return this.getElText( $( headerNodes[ i ] ) ).replace( /\n/g, '' );
+	}
+
 	return counter || '-';
 };
 
