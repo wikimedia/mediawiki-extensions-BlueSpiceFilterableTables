@@ -13,6 +13,8 @@ bs.filterableTables.ui.grid.FilterableTable = function ( cfg ) {
 		'bs-exportable'
 	];
 
+	this.overallWidth = this.getTableWidth( cfg.$table );
+
 	cfg = this.makeGridCfg( cfg );
 	cfg.classes = [ 'bs-filtertable' ];
 
@@ -20,12 +22,26 @@ bs.filterableTables.ui.grid.FilterableTable = function ( cfg ) {
 
 	const classes = this.getTableClassNames( cfg.$table );
 	this.$table.addClass( classes.join( ' ' ) ); // eslint-disable-line mediawiki/class-doc
+	setTimeout( () => {
+		// Execute in next event loop to ensure proper sizing
+		if ( this.overallWidth ) {
+			// Explicit table width set
+			this.$table.css( 'width', this.overallWidth );
+			this.$table.css( 'min-width', 'unset' );
+			// If table is narrower than whole container, resize the container and make table 100%
+			if ( this.$element.width() > this.$table.width() ) {
+				this.$element.css( 'width', this.$table.width() + 'px' );
+				this.$table.css( 'width', '100%' );
+			}
+		}
+	}, 1 );
 };
 
 OO.inheritClass( bs.filterableTables.ui.grid.FilterableTable, OOJSPlus.ui.data.GridWidget );
 
 bs.filterableTables.ui.grid.FilterableTable.prototype.makeGridCfg = function ( cfg ) {
 	const $table = cfg.$table || '';
+
 	if ( $table.find( 'caption' ).length > 0 ) {
 		const captionNodes = cfg.$table.find( 'caption' )[ 0 ].childNodes;
 		let caption = '';
@@ -290,4 +306,16 @@ bs.filterableTables.ui.grid.FilterableTable.prototype.formatDate = function ( $e
 
 	// Store both sort and display value
 	$el.text( `${ sortVal }|SORT_DISPLAY_DIVIDER|${ displayVal }` );
+};
+
+bs.filterableTables.ui.grid.FilterableTable.prototype.getTableWidth = function ( $table ) {
+	const attrs = this.getElAttributes( $table );
+	if ( attrs.width ) {
+		return attrs.width;
+	}
+	const parsedWidth = this.parseColumnWidthFromAttribute( attrs.style || '' );
+	if ( parsedWidth ) {
+		return parsedWidth;
+	}
+	return null;
 };
