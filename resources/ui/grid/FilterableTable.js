@@ -268,9 +268,12 @@ bs.filterableTables.ui.grid.FilterableTable.prototype.getElHeaderText = function
 };
 
 bs.filterableTables.ui.grid.FilterableTable.prototype.getElText = function ( $el ) {
-	// Preserve links and surrounding text
-	if ( $el.find( 'a' ).length ) {
-		return $.trim( $el.html() ); // eslint-disable-line no-jquery/no-trim
+	// Preserve links
+	const $anchors = $el.find( 'a' );
+	if ( $anchors.length ) {
+		return $anchors.map( function () {
+			return this.outerHTML;
+		} ).get().join( ', ' );
 	}
 
 	let text = $el.text();
