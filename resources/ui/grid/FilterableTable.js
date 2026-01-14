@@ -166,6 +166,7 @@ bs.filterableTables.ui.grid.FilterableTable.prototype.extractMappings = function
 		filter: {
 			type: attributes.type
 		},
+		maxLabelLength: Number.MAX_SAFE_INTEGER, // ERM45005: Disable truncation
 		autoClosePopup: true,
 		valueParser: ( value ) => {
 			// If the value has a sort/display divider, return the display part for rendering
