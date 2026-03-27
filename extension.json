@@ -43,7 +43,8 @@
 	"ResourceModules": {
 		"ext.bluespice.filterabletables": {
 			"scripts": [
-				"bluespice.filterabletables.js"
+				"bluespice.filterabletables.js",
+				"plugin/LingoTooltips.js"
 			]
 		},
 		"ext.bluespice.filterabletables.grid": {
