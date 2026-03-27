@@ -10,6 +10,7 @@
 			} );
 			counter++;
 			$el.after( grid.$element );
+			mw.hook( 'wikipage.content' ).fire( grid.$element );
 		} );
 	} );
 }( mediaWiki, jQuery ) );
