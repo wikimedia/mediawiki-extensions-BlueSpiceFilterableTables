@@ -174,7 +174,7 @@ bs.filterableTables.ui.grid.FilterableTable.prototype.extractMappings = function
 				const [ sort, display ] = value.split( '|SORT_DISPLAY_DIVIDER|', 2 ); // eslint-disable-line no-unused-vars
 				return display || value;
 			}
-			if ( value.startsWith( '<a' ) ) {
+			if ( /<a[\s>]/.test( value ) ) {
 				return new OO.ui.HtmlSnippet( value );
 			}
 			return value;
@@ -268,10 +268,9 @@ bs.filterableTables.ui.grid.FilterableTable.prototype.getElHeaderText = function
 };
 
 bs.filterableTables.ui.grid.FilterableTable.prototype.getElText = function ( $el ) {
-	// Preserve links
-	const anchor = $el.find( 'a' ).get( 0 );
-	if ( anchor ) {
-		return anchor.outerHTML;
+	// Preserve links and surrounding text
+	if ( $el.find( 'a' ).length ) {
+		return $.trim( $el.html() ); // eslint-disable-line no-jquery/no-trim
 	}
 
 	let text = $el.text();
