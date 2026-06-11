@@ -22,7 +22,7 @@ class AddPageProperty implements ContentAlterParserOutputHook {
 		$regex = '/^\{\| class="wikitable[a-z ]*filterable/m';
 
 		if ( preg_match( $regex, $text ) ) {
-			$parserOutput->setPageProperty( 'filterable-table', '1' );
+			$parserOutput->setNumericPageProperty( 'filterable-table', 1 );
 		} else {
 			$parserOutput->unsetPageProperty( 'filterable-table' );
 		}

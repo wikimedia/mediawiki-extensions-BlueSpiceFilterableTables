@@ -268,12 +268,16 @@ bs.filterableTables.ui.grid.FilterableTable.prototype.getElHeaderText = function
 };
 
 bs.filterableTables.ui.grid.FilterableTable.prototype.getElText = function ( $el ) {
-	// Preserve links
-	const $anchors = $el.find( 'a' );
-	if ( $anchors.length ) {
-		return $anchors.map( function () {
-			return this.outerHTML;
-		} ).get().join( ', ' );
+	if ( $el.find( 'a' ).length ) {
+		let result = '';
+		$el.contents().each( function () {
+			if ( this.nodeType === Node.TEXT_NODE ) {
+				result += this.textContent;
+			} else if ( this.nodeName === 'A' ) {
+				result += this.outerHTML;
+			}
+		} );
+		return result.trim();
 	}
 
 	let text = $el.text();
