@@ -21,7 +21,7 @@ bs.filterableTables.ui.grid.FilterableTable = function ( cfg ) {
 	bs.filterableTables.ui.grid.FilterableTable.super.call( this, cfg );
 
 	const classes = this.getTableClassNames( cfg.$table );
-	this.$table.addClass( classes.join( ' ' ) ); // eslint-disable-line mediawiki/class-doc
+	this.$table.addClass( classes.join( ' ' ) );
 	setTimeout( () => {
 		// Execute in next event loop to ensure proper sizing
 		if ( this.overallWidth ) {
